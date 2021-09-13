@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 
 const Login:FC = (props) => {
-    return 'Login'
+    return <div>Login</div>
 }
 
 export default Login
