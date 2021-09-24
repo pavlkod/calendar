@@ -1,19 +1,18 @@
 import { FC } from 'react'
-import { Form, Input, Button, Spin, Alert } from 'antd';
+import { Form, Input, Button, Alert } from 'antd';
 
 import styles from './index.module.css'
 import { rules } from '../../utils/rules';
-import { useDispatch } from 'react-redux';
-import { AuthActionCreators } from '../../store/reducers/auth/action-creators';
 import { IUser } from '../../models/IUser';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useActions } from '../../hooks/useActions';
 
 const LoginForm: FC = () => {
-    const dispatch = useDispatch()
-    const {isLoading, error} = useTypedSelector(state => state.auth)
+    const { isLoading, error } = useTypedSelector(state => state.auth)
+    const { login} = useActions()
     const onFinishHandler = (values: IUser) => {
         const {username, password } = values
-        dispatch(AuthActionCreators.login(username, password ))
+        login(username, password )
     }
 
     return (

@@ -13,31 +13,35 @@ export const AuthActionCreators = {
     setError: (error: string): SetErrorAction => ({ type: AuthActionsEnum.SET_ERROR, payload: error }),
     login: (username: string, password: string) => async(dispatch:AppDispatcher) => {
         try {
-            dispatch(AuthActionCreators.setIsLoading(true))
-
-            const response = await axios.get<IUser[]>('../users.json')
-            const user = response.data.find(value => value.username === username && value.password === password)
-            if (user) {
-                localStorage.setItem('auth', 'true')
-                localStorage.setItem('username', user.username)
-
-                dispatch(AuthActionCreators.setIsAuth(true))
-                dispatch(AuthActionCreators.setUser(user))
-            } else {
-                dispatch(AuthActionCreators.setError('Not found user'))
-            }
             
+            dispatch(AuthActionCreators.setIsLoading(true))
+            setTimeout(async() => {
+                const response = await axios.get<IUser[]>('../users.json')
+                const user = response.data.find(value => value.username === username && value.password === password)
+                if (user) {
+                    localStorage.setItem('auth', 'true')
+                    localStorage.setItem('username', user.username)
+    
+                    dispatch(AuthActionCreators.setIsAuth(true))
+                    dispatch(AuthActionCreators.setUser(user))
+                } else {
+                    dispatch(AuthActionCreators.setError('Not found user'))
+                }                
+            }, 1000);
         } catch (e) {
             dispatch(AuthActionCreators.setError('Error auth'))
-        } finally {
-            dispatch(AuthActionCreators.setIsLoading(false))
         }
     },
     logout: () => (dispatch: AppDispatcher) => {
         try {
-            
+            dispatch(AuthActionCreators.setIsAuth(false))
+            dispatch(AuthActionCreators.setUser({} as IUser))
+            dispatch(AuthActionCreators.setError(''))
+
+            localStorage.removeItem('auth')
+            localStorage.removeItem('username')
         } catch (e) {
-            
+            dispatch(AuthActionCreators.setError('Error logout'))
         }
     }
 }
