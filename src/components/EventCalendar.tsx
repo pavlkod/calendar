@@ -1,7 +1,12 @@
 import { Calendar } from 'antd'
-import React from 'react'
+import React, { FC } from 'react'
+import { IEvent } from '../models/IEvent'
 
-const EventCalendar = () => {
+interface EventCalendarProps{
+    events: IEvent[]
+}
+
+const EventCalendar:FC<EventCalendarProps> = () => {
     return (
         <Calendar/>
     )
