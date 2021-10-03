@@ -1,6 +1,7 @@
 import { Button, Layout, Modal, Row } from 'antd'
 import React, { FC, useState } from 'react'
 import EventCalendar from '../components/EventCalendar'
+import EventForm from '../components/EventForm'
 
 const Events: FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false)
@@ -15,10 +16,8 @@ const Events: FC = () => {
             <Row justify="center">
                 <Button onClick={showModal}>Добавить событие</Button>
             </Row>
-            <Modal title="Добавить событие" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+            <Modal title="Добавить событие" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer=''>
+                <EventForm/>
             </Modal>
         </Layout>
     )
