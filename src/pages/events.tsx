@@ -1,23 +1,38 @@
 import { Button, Layout, Modal, Row } from 'antd'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import EventCalendar from '../components/EventCalendar'
 import EventForm from '../components/EventForm'
+import { useActions } from '../hooks/useActions'
+import { useTypedSelector } from '../hooks/useTypedSelector'
+import { IEvent } from '../models/IEvent'
 
 const Events: FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false)
     const showModal = () => setIsModalVisible(true)
-    const handleOk = () => setIsModalVisible(false)
     const handleCancel = () => setIsModalVisible(false)
+
+    const { fetchGuests, createEvent } = useActions()
+    const { guests, events} = useTypedSelector(state => state.event)
+    useEffect(() => {
+        fetchGuests()
+    }, [])
+
+    const addEvent = (event:IEvent) => {
+        createEvent(event)
+        handleCancel()
+    }
+
     return (
         <Layout>
+            { JSON.stringify(events, null, 2)}
             <Row justify="center" align="middle" className="height-100">
                 <EventCalendar events={[] }/>
             </Row>
             <Row justify="center">
                 <Button onClick={showModal}>Добавить событие</Button>
             </Row>
-            <Modal title="Добавить событие" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer=''>
-                <EventForm/>
+            <Modal title="Добавить событие" visible={isModalVisible} onCancel={handleCancel} footer=''>
+                <EventForm guests={guests} submit={addEvent}/>
             </Modal>
         </Layout>
     )
