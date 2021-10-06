@@ -26,9 +26,8 @@ const Events: FC = () => {
 
     return (
         <Layout>
-            { JSON.stringify(events, null, 2)}
             <Row justify="center" align="middle" className="height-100">
-                <EventCalendar events={[] }/>
+                <EventCalendar events={events}/>
             </Row>
             <Row justify="center">
                 <Button onClick={showModal}>Добавить событие</Button>
