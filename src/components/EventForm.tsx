@@ -44,7 +44,7 @@ const EventForm: FC<EventProps> = (props) => {
             <Form.Item
                 label="Дата события"
                 name="date"
-                rules={[rules.required('Введите дату события!')]}
+                rules={[rules.required('Введите дату события!'), rules.isDateAfter('Некорректная дата')]}
             >
                 <DatePicker style={{ width: '100%' }} onChange={selectDate}/>
             </Form.Item>
